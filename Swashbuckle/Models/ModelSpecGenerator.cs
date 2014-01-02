@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Reflection;
+using System.Runtime.Serialization;
 using System.Text;
 using Newtonsoft.Json.Linq;
 
@@ -104,6 +105,7 @@ namespace Swashbuckle.Models
         private ModelSpec CreateComplexSpecFor(Type type, Dictionary<Type, ModelSpec> deferredMappings)
         {
             var propSpecs = type.GetProperties(BindingFlags.Instance | BindingFlags.Public)
+                .Where(propInfo => propInfo.PropertyType != typeof(ExtensionDataObject))
                 .ToDictionary(propInfo => propInfo.Name, propInfo => CreateSpecFor(propInfo.PropertyType, true, deferredMappings));
 
             return new ModelSpec
