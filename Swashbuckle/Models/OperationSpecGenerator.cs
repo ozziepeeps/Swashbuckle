@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http.Description;
+using CoStar.Api.Adapters.WebApi.Swagger;
 
 namespace Swashbuckle.Models
 {
@@ -35,7 +36,8 @@ namespace Swashbuckle.Models
                 Nickname = String.Format("{0}_{1}",
                     apiDescription.ActionDescriptor.ControllerDescriptor.ControllerName,
                     apiDescription.ActionDescriptor.ActionName),
-                Summary = apiDescription.Documentation,
+                Summary = apiDescription.Documentation.GetSummary(),
+				Notes = apiDescription.Documentation.GetRemarksAndExamples(),
                 Parameters = paramSpecs,
                 ResponseMessages = new List<ResponseMessageSpec>()
             };

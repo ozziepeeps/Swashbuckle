@@ -12,20 +12,20 @@ namespace Swashbuckle.Models
     {
         private static readonly Dictionary<Type, ModelSpec> PrimitiveMappings = new Dictionary<Type, ModelSpec>()
             {
-                {typeof (Int32), new ModelSpec {Type = "integer", Format = "int32"}},
-                {typeof (UInt32), new ModelSpec {Type = "integer", Format = "int32"}},
-                {typeof (Int64), new ModelSpec {Type = "integer", Format = "int64"}},
-                {typeof (UInt64), new ModelSpec {Type = "integer", Format = "int64"}},
-                {typeof (Single), new ModelSpec {Type = "number", Format = "float"}},
-                {typeof (Double), new ModelSpec {Type = "number", Format = "double"}},
-                {typeof (Decimal), new ModelSpec {Type = "number", Format = "double"}},
-                {typeof (String), new ModelSpec {Type = "string", Format = null}},
-                {typeof (Char), new ModelSpec {Type = "string", Format = null}},
-                {typeof (Byte), new ModelSpec {Type = "string", Format = "byte"}},
-                {typeof (Boolean), new ModelSpec {Type = "boolean", Format = null}},
-                {typeof (DateTime), new ModelSpec {Type = "string", Format = "date-time"}},
-                {typeof (HttpResponseMessage), new ModelSpec{Id = "Object", Type="object"}},
-                {typeof (JObject), new ModelSpec{Id = "Object", Type="object"}}
+                { typeof(int), new ModelSpec { Type = "integer", Format = "int32", Sample = 1 } },
+                { typeof(uint), new ModelSpec { Type = "integer", Format = "int32", Sample = 1 } },
+                { typeof(long), new ModelSpec { Type = "integer", Format = "int64", Sample = 5000L } },
+                { typeof(ulong), new ModelSpec { Type = "integer", Format = "int64", Sample = 5000L } },
+                { typeof(float), new ModelSpec { Type = "number", Format = "float", Sample = 1.3 } },
+                { typeof(double), new ModelSpec { Type = "number", Format = "double", Sample = 2.5 } },
+                { typeof(decimal), new ModelSpec { Type = "number", Format = "double", Sample = 3.2m } },
+                { typeof(string), new ModelSpec { Type = "string", Format = null, Sample = "sample" } },
+                { typeof(char), new ModelSpec { Type = "string", Format = null, Sample = 'c' } },
+                { typeof(byte), new ModelSpec { Type = "string", Format = "byte", Sample = 0 } },
+                { typeof(bool), new ModelSpec { Type = "boolean", Format = null, Sample = true } },
+                { typeof(DateTime), new ModelSpec { Type = "string", Format = "date-time", Sample = new DateTimeOffset(1982, 2, 24, 0, 0, 0, TimeSpan.FromSeconds(0)) } },
+                { typeof(HttpResponseMessage), new ModelSpec { Id = "Object", Type = "object" } },
+                { typeof(JObject), new ModelSpec { Id = "Object", Type = "object" } },
             };
 
         private readonly IDictionary<Type, ModelSpec> _customMappings;
@@ -74,7 +74,10 @@ namespace Swashbuckle.Models
                 return PrimitiveMappings[type];
 
             if (type.IsEnum)
-                return new ModelSpec {Type = "string", Enum = type.GetEnumNames()};
+			{
+				var enumNames = type.GetEnumNames();
+                return new ModelSpec { Type = "string", Enum = enumNames, Sample = enumNames[0] };
+			}
 
             Type innerType;
             if (type.IsNullable(out innerType))

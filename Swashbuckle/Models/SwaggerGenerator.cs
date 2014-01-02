@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http.Description;
+using CoStar.Api.Runtime;
 
 namespace Swashbuckle.Models
 {
@@ -28,7 +29,18 @@ namespace Swashbuckle.Models
 
         public SwaggerSpec From(IApiExplorer apiExplorer)
         {
+			// Only show visible domain-declared routes in the Swagger docs. This will prevent the display of
+            // XDR shadow routes, and any ApiController routes that the host might have registered.
+            var routes = RuntimeConfiguration.DomainRoutes;
+			
+            var visibleDomainRoutes = routes.Where(r => r.IsVisibleInRouteList)
+                ////.Where(r => r.Route.Path == "/forLease/search") // Temporary filter
+                ////.Where(r => r.Route.Path == "leaseDcf/clients") // Temporary filter
+                ////.Where(r => r.Route.Path == "widgets") // Temporary filter
+                                            .ToLookup(k => k.Route.Path.Trim('/'));
+		
             var apiDescriptionGroups = apiExplorer.ApiDescriptions
+				.Where(d => visibleDomainRoutes.Contains(d.RelativePath))
                 .GroupBy(apiDesc => "/" + _declarationKeySelector(apiDesc))
                 .ToArray();
 

@@ -167,5 +167,12 @@ namespace Swashbuckle.Models
 
         [JsonProperty("properties")]
         public IDictionary<string, ModelSpec> Properties { get; set; }
+		
+		/// <summary>
+        /// Gets or sets the sample of the parameter.
+        /// </summary>
+        /// <remarks>This is a CoStar extension to the spec.</remarks>
+        [JsonProperty(PropertyName = "sample")]
+        public object Sample { get; set; }
     }
 }
