@@ -40,7 +40,7 @@ namespace Swashbuckle.Models
 
         public ModelSpecGenerator()
             : this(new Dictionary<Type, ModelSpec>())
-        {}
+        { }
 
         public ModelSpec From(Type type, ModelSpecRegistrar modelSpecRegistrar)
         {
@@ -61,7 +61,7 @@ namespace Swashbuckle.Models
 
                 modelSpecRegistrar.Register(spec);
             }
-            
+
             return rootSpec;
         }
 
@@ -74,10 +74,10 @@ namespace Swashbuckle.Models
                 return PrimitiveMappings[type];
 
             if (type.IsEnum)
-			{
-				var enumNames = type.GetEnumNames();
+            {
+                var enumNames = type.GetEnumNames();
                 return new ModelSpec { Type = "string", Enum = enumNames, Sample = enumNames[0] };
-			}
+            }
 
             Type innerType;
             if (type.IsNullable(out innerType))
@@ -93,9 +93,9 @@ namespace Swashbuckle.Models
             {
                 if (!deferredMappings.ContainsKey(type))
                     deferredMappings.Add(type, null);
-                
+
                 // Just return a reference for now
-                return new ModelSpec {Ref = UniqueIdFor(type)};
+                return new ModelSpec { Ref = UniqueIdFor(type) };
             }
 
             return CreateComplexSpecFor(type, deferredMappings);
@@ -107,11 +107,11 @@ namespace Swashbuckle.Models
                 .ToDictionary(propInfo => propInfo.Name, propInfo => CreateSpecFor(propInfo.PropertyType, true, deferredMappings));
 
             return new ModelSpec
-                {
-                    Id = UniqueIdFor(type),
-                    Type = "object",
-                    Properties = propSpecs
-                };
+            {
+                Id = UniqueIdFor(type),
+                Type = "object",
+                Properties = propSpecs
+            };
         }
 
         private static string UniqueIdFor(Type type)

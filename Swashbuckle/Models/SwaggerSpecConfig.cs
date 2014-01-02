@@ -74,7 +74,7 @@ namespace Swashbuckle.Models
 
         private string DefaultDeclarationKeySelector(ApiDescription apiDescription)
         {
-            return apiDescription.ActionDescriptor.ControllerDescriptor.ControllerName;
+            return apiDescription.RelativePath;
         }
 
         private string DefaultBasePathResolver()

@@ -37,7 +37,7 @@ namespace Swashbuckle.Models
                     apiDescription.ActionDescriptor.ControllerDescriptor.ControllerName,
                     apiDescription.ActionDescriptor.ActionName),
                 Summary = apiDescription.Documentation.GetSummary(),
-				Notes = apiDescription.Documentation.GetRemarksAndExamples(),
+                Notes = apiDescription.Documentation.GetRemarksAndExamples(),
                 Parameters = paramSpecs,
                 ResponseMessages = new List<ResponseMessageSpec>()
             };
