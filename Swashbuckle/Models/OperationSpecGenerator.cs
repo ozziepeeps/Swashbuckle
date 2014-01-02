@@ -42,7 +42,7 @@ namespace Swashbuckle.Models
                 ResponseMessages = new List<ResponseMessageSpec>()
             };
 
-            var returnType = apiDescription.ActionDescriptor.ReturnType;
+            var returnType = apiDescription.Documentation.GetReturnType();
             if (returnType == null)
             {
                 operationSpec.Type = "void";
