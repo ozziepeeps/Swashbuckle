@@ -32,14 +32,30 @@ namespace Swashbuckle.Models
             // Only show visible domain-declared routes in the Swagger docs. This will prevent the display of
             // XDR shadow routes, and any ApiController routes that the host might have registered.
             var routes = RuntimeConfiguration.DomainRoutes;
-            
+
+            ////var route = RuntimeConfiguration.DomainRoutes
+            ////    .Where(r => r.IsVisibleInRouteList)
+            ////    .ElementAt(SwaggerController.DebugIndex);
+
+            ////routes = new List<HostedRoute>
+            ////             {
+            ////                 route
+            ////             };
+
             var visibleDomainRoutes = routes.Where(r => r.IsVisibleInRouteList)
                 ////.Where(r => r.Route.Path == "/forLease/search") // Temporary filter
-                ////.Where(r => r.Route.Path == "leaseDcf/clients") // Temporary filter
-                ////.Where(r => r.Route.Path == "widgets") // Temporary filter
+                ////.Where(r => r.Route.Path.Contains("leaseDcf")) // Temporary filter
+                ////.Where(r => r.Route.Path.Contains("widget")) // Temporary filter
                                             .ToLookup(k => k.Route.Path.Trim('/'));
-        
-            var apiDescriptionGroups = apiExplorer.ApiDescriptions
+
+            var apiDescriptions = apiExplorer.ApiDescriptions;
+
+            ////foreach (var apiDescription in apiDescriptions)
+            ////{
+            ////    Trace.WriteLine(apiDescription.RelativePath);
+            ////}
+
+            var apiDescriptionGroups = apiDescriptions
                 .Where(d => visibleDomainRoutes.Contains(d.RelativePath))
                 .GroupBy(apiDesc => "/" + _declarationKeySelector(apiDesc))
                 .OrderBy(apiDesc => apiDesc.Key)
