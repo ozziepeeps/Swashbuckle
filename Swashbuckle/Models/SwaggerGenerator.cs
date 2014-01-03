@@ -42,6 +42,7 @@ namespace Swashbuckle.Models
             var apiDescriptionGroups = apiExplorer.ApiDescriptions
                 .Where(d => visibleDomainRoutes.Contains(d.RelativePath))
                 .GroupBy(apiDesc => "/" + _declarationKeySelector(apiDesc))
+                .OrderBy(apiDesc => apiDesc.Key)
                 .ToArray();
 
             return new SwaggerSpec
