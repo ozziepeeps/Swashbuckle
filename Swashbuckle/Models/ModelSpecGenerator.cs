@@ -128,7 +128,7 @@ namespace Swashbuckle.Models
 
                 return builder
                     .Replace(String.Format("`{0}", genericArguments.Count()), String.Empty)
-                    .Append(String.Format("[{0}]", String.Join(",", genericArguments).TrimEnd(',')))
+                    .Append(String.Format("{{{0}}}", String.Join(",", genericArguments).TrimEnd(',')))
                     .ToString();
             }
 
