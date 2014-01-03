@@ -108,6 +108,12 @@ namespace Swashbuckle.Models
                 .Where(propInfo => propInfo.PropertyType != typeof(ExtensionDataObject))
                 .ToDictionary(propInfo => propInfo.Name, propInfo => CreateSpecFor(propInfo.PropertyType, true, deferredMappings));
 
+            ////foreach (var key in propSpecs.Keys)
+            ////{
+            ////    var propSpec = propSpecs[key];
+            ////    propSpec.Description = "Gets or sets the monkey on the tree.";
+            ////}
+
             return new ModelSpec
             {
                 Id = UniqueIdFor(type),
