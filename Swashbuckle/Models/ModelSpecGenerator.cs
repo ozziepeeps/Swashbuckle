@@ -76,7 +76,25 @@ namespace Swashbuckle.Models
                 return _customMappings[type];
 
             if (PrimitiveMappings.ContainsKey(type))
-                return PrimitiveMappings[type];
+            {
+                var primitiveMapping = PrimitiveMappings[type];
+
+                // We need to create a clone here, otherwise the description gets overwritten.
+                var modelSpec = new ModelSpec
+                                    {
+                                        Id = primitiveMapping.Id,
+                                        Description = primitiveMapping.Description,
+                                        Enum = primitiveMapping.Enum,
+                                        Format = primitiveMapping.Format,
+                                        Items = primitiveMapping.Items,
+                                        Properties = primitiveMapping.Properties,
+                                        Ref = primitiveMapping.Ref,
+                                        Sample = primitiveMapping.Sample,
+                                        Type = primitiveMapping.Type
+                                    };
+
+                return modelSpec;
+            }
 
             if (type.IsEnum)
             {
