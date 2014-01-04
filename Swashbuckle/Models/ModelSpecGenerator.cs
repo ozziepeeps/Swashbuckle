@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Reflection;
 using System.Runtime.Serialization;
 using System.Text;
 using CoStar.Api.Adapters.WebApi.Swagger;
+using CoStar.Api.Adapters.WebApi.Swagger.Controllers;
 using Newtonsoft.Json.Linq;
 
 namespace Swashbuckle.Models
@@ -109,23 +109,11 @@ namespace Swashbuckle.Models
         private ModelSpec CreateComplexSpecFor(Type type, Dictionary<Type, ModelSpec> deferredMappings)
         {
             var typeAssemblyName = type.Assembly.GetName().Name;
-            XmlDocumentationProvider provider = null;
+            var xmlFileName = typeAssemblyName + ".xml";
 
-            if (DocumentationProviders.ContainsKey(typeAssemblyName))
-            {
-                provider = DocumentationProviders[typeAssemblyName];
-            }
-            else 
-            {
-                var xmlFileName = typeAssemblyName + ".xml";
-                var xmlFilePath = Path.Combine(AppDomain.CurrentDomain.RelativeSearchPath, xmlFileName);
-
-                if (File.Exists(xmlFilePath))
-                {
-                    provider = new XmlDocumentationProvider(xmlFilePath);
-                    DocumentationProviders[typeAssemblyName] = provider;
-                }
-            }
+            var provider = SwaggerController.DocumentationProviders.ContainsKey(xmlFileName)
+                               ? SwaggerController.DocumentationProviders[xmlFileName]
+                               : null;
 
             var propertyInfos = type.GetProperties(BindingFlags.Instance | BindingFlags.Public)
                 .Where(propInfo => propInfo.PropertyType != typeof(ExtensionDataObject));
