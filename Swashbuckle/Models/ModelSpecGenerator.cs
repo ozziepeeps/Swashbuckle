@@ -5,7 +5,6 @@ using System.Net.Http;
 using System.Reflection;
 using System.Runtime.Serialization;
 using System.Text;
-using CoStar.Api.Adapters.WebApi.Swagger;
 using CoStar.Api.Adapters.WebApi.Swagger.Controllers;
 using Newtonsoft.Json.Linq;
 
@@ -13,8 +12,6 @@ namespace Swashbuckle.Models
 {
     public class ModelSpecGenerator
     {
-        private static readonly Dictionary<string, XmlDocumentationProvider> DocumentationProviders = new Dictionary<string, XmlDocumentationProvider>();
-
         private static readonly Dictionary<Type, ModelSpec> PrimitiveMappings = new Dictionary<Type, ModelSpec>()
             {
                 { typeof(int), new ModelSpec { Type = "integer", Format = "int32", Sample = 1 } },
