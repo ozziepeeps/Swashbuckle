@@ -1,12 +1,14 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Web.Http.Description;
+using CoStar.Api.Runtime;
 using Newtonsoft.Json;
 
 namespace Swashbuckle.Models
 {
     public class SwaggerSpec
     {
-        public static SwaggerSpec CreateFrom(IApiExplorer apiExplorer)
+        public static SwaggerSpec CreateFrom(IApiExplorer apiExplorer, ILookup<string, HostedRoute> visibleDomainRoutes)
         {
             var swaggerGenerator = new SwaggerGenerator(
                 SwaggerSpecConfig.Instance.DeclarationKeySelector,
@@ -17,7 +19,7 @@ namespace Swashbuckle.Models
 
             // TODO: Implement as Singleton - there is only one spec and it should only be generated once
 
-            return swaggerGenerator.From(apiExplorer);
+            return swaggerGenerator.From(apiExplorer, visibleDomainRoutes);
         }
 
         public ResourceListing Listing { get; set; }
