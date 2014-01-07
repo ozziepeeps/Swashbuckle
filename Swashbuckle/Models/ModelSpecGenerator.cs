@@ -42,7 +42,7 @@ namespace Swashbuckle.Models
 
         public ModelSpecGenerator()
             : this(new Dictionary<Type, ModelSpec>())
-        { }
+        {}
 
         public ModelSpec From(Type type, ModelSpecRegistrar modelSpecRegistrar)
         {
@@ -115,7 +115,7 @@ namespace Swashbuckle.Models
                     deferredMappings.Add(type, null);
 
                 // Just return a reference for now
-                return new ModelSpec { Ref = UniqueIdFor(type) };
+                return new ModelSpec {Ref = UniqueIdFor(type)};
             }
 
             return CreateComplexSpecFor(type, deferredMappings);

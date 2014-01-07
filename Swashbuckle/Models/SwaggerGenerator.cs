@@ -29,14 +29,7 @@ namespace Swashbuckle.Models
 
         public SwaggerSpec From(IApiExplorer apiExplorer, ILookup<string, HostedRoute> visibleDomainRoutes)
         {
-            var apiDescriptions = apiExplorer.ApiDescriptions;
-
-            ////foreach (var apiDescription in apiDescriptions)
-            ////{
-            ////    Trace.WriteLine(apiDescription.RelativePath);
-            ////}
-
-            var apiDescriptionGroups = apiDescriptions
+            var apiDescriptionGroups = apiExplorer.ApiDescriptions
                 .Where(d => visibleDomainRoutes.Contains(d.RelativePath))
                 .GroupBy(apiDesc => "/" + _declarationKeySelector(apiDesc))
                 .OrderBy(apiDesc => apiDesc.Key)
