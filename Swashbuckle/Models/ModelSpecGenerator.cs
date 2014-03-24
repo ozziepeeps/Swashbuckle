@@ -28,6 +28,7 @@ namespace Swashbuckle.Models
                 { typeof(DateTime), new ModelSpec { Type = "string", Format = "date-time", Sample = new DateTimeOffset(1982, 2, 24, 0, 0, 0, TimeSpan.FromSeconds(0)) } },
                 { typeof(HttpResponseMessage), new ModelSpec { Id = "Object", Type = "object" } },
                 { typeof(JObject), new ModelSpec { Id = "Object", Type = "object" } },
+                { typeof(Uri), new ModelSpec { Type = "string", Format = null, Sample = "http://www.costar.com" } }
             };
 
         private readonly IDictionary<Type, ModelSpec> _customMappings;
